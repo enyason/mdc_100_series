@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'colors.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,8 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   // TODO: Add text editing controllers (101)
   final usernameTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,44 +45,46 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Remove filled: true values (103)
             // TODO: Wrap Password with AccentColorOverride (103)
             // TODO: Add TextField widgets (101)
-            TextField(
-              controller: usernameTextEditingController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "username"
+            AccentColorOverride(
+              color: kShrineBrown900,
+              child: TextField(
+                controller: usernameTextEditingController,
+                decoration: InputDecoration(labelText: "username"),
               ),
-
             ),
             SizedBox(
               height: 12.0,
             ),
-            TextField(
-              controller: passwordTextEditingController,
-              obscureText: true,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "password"
+            AccentColorOverride(
+              color: kShrineBrown900,
+              child: TextField(
+                controller: passwordTextEditingController,
+                obscureText: true,
+                decoration: InputDecoration(labelText: "password"),
               ),
             ),
             // TODO: Add button bar (101)
             ButtonBar(
-
               children: <Widget>[
-
-                FlatButton(onPressed: (){
-
-                  passwordTextEditingController.clear();
-                  usernameTextEditingController.clear();
-
-                }, child: Text("CANCEL")),
-                RaisedButton(onPressed: (){
-                  
-                  Navigator.pop(context);
-
-                },child: Text("NEXT"),)
-
+                FlatButton(
+                  onPressed: () {
+                    passwordTextEditingController.clear();
+                    usernameTextEditingController.clear();
+                  },
+                  child: Text("CANCEL"),
+                  shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("NEXT"),
+                  elevation: 6.0,
+                  shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
+                )
               ],
-
             )
           ],
         ),
@@ -93,3 +94,22 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 // TODO: Add AccentColorOverride (103)
+
+class AccentColorOverride extends StatelessWidget {
+  const AccentColorOverride({Key key, this.color, this.child})
+      : super(key: key);
+
+  final Color color;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      child: child,
+      data: Theme.of(context).copyWith(
+        accentColor: color,
+        brightness: Brightness.dark,
+      ),
+    );
+  }
+}
